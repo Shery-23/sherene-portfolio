@@ -484,25 +484,75 @@ main, .floating-nav, .site-footer { position: relative; z-index: 3; }
   margin-top: 40px;
 }
 
-.project-tile {
+
+ .project-tile {
   position: relative;
   background: var(--glass);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
   padding: 30px;
   overflow: hidden;
-  transition: transform 0.3s var(--ease), border-color 0.3s ease;
+
+  /* Smooth zoom + movement */
+  transition:
+    transform 0.35s var(--ease),
+    border-color 0.35s ease,
+    box-shadow 0.35s ease,
+    background 0.35s ease;
+
+  cursor: pointer;
+  z-index: 1;
 }
 
-.project-tile:hover { transform: translateY(-6px); border-color: var(--mint); }
+.project-tile:hover {
+  /* Zoom in + move upward */
+  transform: translateY(-8px) scale(1.04);
 
-.project-glow {
+  /* Your existing mint color */
+  border-color: var(--mint);
+
+  /* Glow around the project */
+  box-shadow:
+    0 0 20px rgba(139, 92, 246, 0.25),
+    0 0 45px rgba(139, 92, 246, 0.15),
+    0 20px 50px rgba(0, 0, 0, 0.35);
+
+  z-index: 10;
+}
+
+
+ .project-glow {
   position: absolute;
-  top: -60%; right: -30%;
-  width: 220px; height: 220px;
-  background: radial-gradient(circle, rgba(139,92,246,0.35), transparent 70%);
+  top: -60%;
+  right: -30%;
+  width: 220px;
+  height: 220px;
+
+  background: radial-gradient(
+    circle,
+    rgba(139, 92, 246, 0.35),
+    transparent 70%
+  );
+
   border-radius: 50%;
   pointer-events: none;
+
+  opacity: 0.5;
+  transform: scale(1);
+
+  transition:
+    opacity 0.35s ease,
+    transform 0.5s ease;
+}
+
+.project-tile:hover .project-glow {
+  opacity: 1;
+  transform: scale(1.4);
+}
+.project-grid:hover .project-tile:not(:hover) {
+  opacity: 0.6;
+  transform: scale(0.98);
+  transition: all 0.35s ease;
 }
 
 .tile-wide { grid-column: span 2; }
